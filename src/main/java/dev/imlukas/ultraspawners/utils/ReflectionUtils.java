@@ -65,7 +65,7 @@ public final class ReflectionUtils {
      * <p>
      * <a href="https://www.spigotmc.org/wiki/spigot-nms-and-minecraft-versions-legacy/">Versions Legacy</a>
      */
-    public static final String NMS_VERSION;
+    public static String NMS_VERSION;
     /**
      * The raw minor version number.
      * E.g. {@code v1_17_R1} to {@code 17}
