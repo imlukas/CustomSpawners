@@ -1,0 +1,6 @@
+name: UltraSpawners
+version: '${version}'
+main: dev.imlukas.ultraspawners.UltraSpawnersPlugin
+api-version: '1.16'
+depend:
+  - Vault

@@ -1,0 +1,19 @@
+title: "&bSpawner"
+layout:
+  - ". . . . . . . . ."
+  - ". . s . t . x . ."
+  - ". . . . . . . . ."
+
+items:
+  s:
+    type: CHEST
+    name: "&6&lSPAWNER STORAGE"
+    lore:
+      - "&6%storage-amount%&f %item-type%"
+  t:
+    type: PAPER
+  x:
+    type: EXPERIENCE_BOTTLE
+    name: "&a&lCOLLECT XP"
+    lore:
+      - "&a%xp-amount%&f &fXP points"

@@ -1,0 +1,12 @@
+spawner-range: 40
+booster-duration: 12 hours
+booster-multiplier: 2
+
+booster-item:
+  type: ALLAY_SPAWN_EGG
+  name: "&e&lSPAWNER BOOSTER"
+  lore:
+      - "&7Consumable"
+      - "&7a Lasts &e&l%duration%"
+
+pickaxe-type: DIAMOND_PICKAXE # Pickaxe type that can break spawners

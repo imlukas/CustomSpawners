@@ -1,0 +1,21 @@
+pig-spawner:
+  name: "Pig Spawner"
+  display-item:
+    material: PLAYER_HEAD
+    name: "&e&l%stack-amount% %spawner-name-plural%"
+    skull-hash: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmVlODUxNDg5MmYzZDc4YTMyZTg0NTZmY2JiOGM2MDgxZTIxYjI0NmQ4MmYzOThiZDk2OWZlYzE5ZDNjMjdiMyJ9fX0="
+    lore:
+      - "&fClick to sell items and collect xp"
+      - "&eStorage: &f%storage-percent% &eFilled."
+  item: PORKCHOP
+  mob-type: PIG
+  block:
+    material: SPAWNER
+    name: "&aPig Spawner"
+    lore:
+      - "&7Spawns pigs"
+  sell-price: 10 # Price to sell the item
+  max-storage: 10000
+  rate:
+    amount: 1 # Amount of items to generate per cycle
+    time: 1 seconds # 1 seconds, minutes, hours

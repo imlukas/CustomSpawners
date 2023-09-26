@@ -1,0 +1,13 @@
+messages:
+  prefix: "&b[UltraSpawners]"
+  action-bar: false
+
+  booster-received: "&eYou received a booster!"
+  booster-activated: "&eBooster activated for %duration%!"
+  booster-check: "&eYou have a booster active for %duration%!"
+  booster-already-active: "&cYou already have a booster active!"
+  spawner:
+    collected: "&a+%sold-amount%$"
+    collected-actionbar: "&a+%sold-amount%$"
+    collected-xp: "&aCollected %xp-amount% xp."
+    added-stack: "&aAdded %amount% spawners to the stack."
