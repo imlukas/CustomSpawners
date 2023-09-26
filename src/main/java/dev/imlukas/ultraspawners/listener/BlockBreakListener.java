@@ -6,6 +6,7 @@ import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -78,6 +79,7 @@ public class BlockBreakListener implements Listener {
             }
 
             if (spawner.getSpawnerData().getStackSize() <= 0) {
+                block.setType(Material.AIR);
                 spawnerRegistry.removeSpawner(spawner);
             }
         }

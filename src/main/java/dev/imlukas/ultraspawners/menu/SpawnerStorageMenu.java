@@ -1,7 +1,9 @@
 package dev.imlukas.ultraspawners.menu;
 
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
+import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
+import dev.imlukas.ultraspawners.utils.NumberUtil;
 import dev.imlukas.ultraspawners.utils.menu.base.ConfigurableMenu;
 import dev.imlukas.ultraspawners.utils.menu.button.Button;
 import dev.imlukas.ultraspawners.utils.menu.configuration.ConfigurationApplicator;
@@ -117,11 +119,12 @@ public class SpawnerStorageMenu extends UpdatableMenu {
         applicator.registerButton(layer, "p", paginableLayer::previousPage);
         applicator.registerButton(layer, "s", () -> {
             Player player = getViewer();
+            SpawnerData data = spawner.getSpawnerData();
             double amount = spawner.getSpawnerData().getStorage();
             double sellPrice = spawner.getSpawnerData().getSellPrice() * amount;
-            Placeholder<Player> sellPricePlaceholder = new Placeholder<>("sold-amount", String.valueOf(sellPrice));
+            Placeholder<Player> sellPricePlaceholder = new Placeholder<>("sold-amount", NumberUtil.formatDouble(data.getSellPrice() * data.getStorage()));
 
-            if (amount == 0) {
+            if (data.getStoragePercent() <= 0.1) {
                 return;
             }
 
@@ -131,7 +134,7 @@ public class SpawnerStorageMenu extends UpdatableMenu {
             plugin.getMessages().sendMessage(player, "spawner.collected", sellPricePlaceholder);
             plugin.getMessages().sendActionbar(player, "spawner.collected-actionbar", sellPricePlaceholder);
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-            refresh();
+            close();
         });
 
         refresh();
