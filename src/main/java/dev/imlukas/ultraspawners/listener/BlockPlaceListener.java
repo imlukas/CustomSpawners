@@ -2,20 +2,15 @@ package dev.imlukas.ultraspawners.listener;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
-import dev.imlukas.ultraspawners.data.PlayerData;
 import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
-import dev.imlukas.ultraspawners.registry.PlayerDataRegistry;
 import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
-import dev.imlukas.ultraspawners.utils.text.TextUtils;
-import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,13 +25,11 @@ import java.util.UUID;
 public class BlockPlaceListener implements Listener {
 
     private final UltraSpawnersPlugin plugin;
-    private final PlayerDataRegistry playerDataRegistry;
     private final GeneralSpawnerRegistry spawnerRegistry;
     private final SpawnerDataFactory dataFactory;
 
     public BlockPlaceListener(UltraSpawnersPlugin plugin) {
         this.plugin = plugin;
-        this.playerDataRegistry = plugin.getPlayerDataRegistry();
         this.spawnerRegistry = plugin.getSpawnerRegistry();
         this.dataFactory = plugin.getSpawnerDataRegistry();
     }
@@ -44,7 +37,6 @@ public class BlockPlaceListener implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        PlayerData playerData = playerDataRegistry.get(player.getUniqueId());
 
         Block block = event.getBlock();
         PersistentDataContainer blockData = new CustomBlockData(block, plugin);

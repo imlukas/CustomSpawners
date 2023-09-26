@@ -1,7 +1,6 @@
 package dev.imlukas.ultraspawners.registry;
 
 import dev.imlukas.ultraspawners.data.SpawnerData;
-import dev.imlukas.ultraspawners.utils.registry.DefaultRegistry;
 import dev.imlukas.ultraspawners.utils.registry.Factory;
 
 import java.util.ArrayList;

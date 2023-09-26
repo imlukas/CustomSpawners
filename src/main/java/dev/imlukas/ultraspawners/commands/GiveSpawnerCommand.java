@@ -2,7 +2,6 @@ package dev.imlukas.ultraspawners.commands;
 
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.PlayerData;
-import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.registry.PlayerDataRegistry;
 import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;

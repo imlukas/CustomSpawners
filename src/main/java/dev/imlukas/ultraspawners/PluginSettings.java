@@ -1,6 +1,5 @@
-package dev.imlukas;
+package dev.imlukas.ultraspawners;
 
-import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
 import dev.imlukas.ultraspawners.utils.item.ItemBuilder;
 import dev.imlukas.ultraspawners.utils.time.Time;

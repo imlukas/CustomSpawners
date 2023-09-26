@@ -21,6 +21,7 @@ public class CheckBoosterCommand implements SimpleCommand {
         this.messages = plugin.getMessages();
         this.playerDataRegistry = plugin.getPlayerDataRegistry();
     }
+
     @Override
     public String getIdentifier() {
         return "spawners.booster";

@@ -148,10 +148,9 @@ public final class InventoryUpdate {
 
             // Get InventoryView from activeContainer.
             Object bukkitView = getBukkitView.invoke(activeContainer);
-            if (!(bukkitView instanceof InventoryView)) return;
+            if (!(bukkitView instanceof InventoryView view)) return;
 
             // Avoiding pattern variable, since some people may be using an older version of java.
-            InventoryView view = (InventoryView) bukkitView;
             InventoryType type = view.getTopInventory().getType();
 
             // Workbenchs and anvils can change their title since 1.14.
@@ -302,11 +301,10 @@ public final class InventoryUpdate {
         // Added in 1.14, functional since 1.16.
         SMITHING(16, null, "SMITHING");
 
+        private static final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         private final int containerVersion;
         private final String minecraftName;
         private final String[] inventoryTypesNames;
-
-        private static final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
         Containers(int containerVersion, String minecraftName, String... inventoryTypesNames) {
             this.containerVersion = containerVersion;

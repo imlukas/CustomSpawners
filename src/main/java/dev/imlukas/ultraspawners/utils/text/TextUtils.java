@@ -13,9 +13,10 @@ import java.util.regex.Pattern;
 
 public class TextUtils {
 
-    private TextUtils() {}
-
     private static final Pattern hexPattern = Pattern.compile("#([A-Fa-f0-9]){6}");
+
+    private TextUtils() {
+    }
 
     public static String color(String message) {
         Matcher matcher = hexPattern.matcher(message);

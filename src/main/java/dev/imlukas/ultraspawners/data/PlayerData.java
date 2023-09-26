@@ -1,13 +1,9 @@
 package dev.imlukas.ultraspawners.data;
 
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
-import dev.imlukas.ultraspawners.impl.InstancedSpawner;
-import dev.imlukas.ultraspawners.utils.registry.DefaultRegistry;
 import dev.imlukas.ultraspawners.utils.schedulerutil.ScheduledTask;
 import dev.imlukas.ultraspawners.utils.schedulerutil.builders.ScheduleBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class PlayerData {

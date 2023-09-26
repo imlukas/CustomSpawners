@@ -1,7 +1,6 @@
 package dev.imlukas.ultraspawners;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import dev.imlukas.PluginSettings;
 import dev.imlukas.ultraspawners.commands.CheckBoosterCommand;
 import dev.imlukas.ultraspawners.commands.GiveBoosterCommand;
 import dev.imlukas.ultraspawners.commands.GiveSpawnerCommand;
@@ -14,7 +13,6 @@ import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
 import dev.imlukas.ultraspawners.registry.PlayerDataRegistry;
 import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
 import dev.imlukas.ultraspawners.storage.FileDatabase;
-import dev.imlukas.ultraspawners.storage.PlayerFile;
 import dev.imlukas.ultraspawners.storage.SpawnerFile;
 import dev.imlukas.ultraspawners.utils.BetterJavaPlugin;
 import dev.imlukas.ultraspawners.utils.command.impl.CommandManager;

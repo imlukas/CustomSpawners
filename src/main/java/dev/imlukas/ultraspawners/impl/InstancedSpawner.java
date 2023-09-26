@@ -18,7 +18,7 @@ public class InstancedSpawner {
     private final Location blockLocation;
     private final List<PlayerData> playersInRange = new ArrayList<>();
 
-    private ScheduledTask storageTask;
+    private final ScheduledTask storageTask;
 
     public InstancedSpawner(UltraSpawnersPlugin plugin, SpawnerData data, Location blockLocation) {
         this(plugin, UUID.randomUUID(), data, blockLocation);

@@ -1,8 +1,6 @@
 package dev.imlukas.ultraspawners.utils.registry;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -13,12 +11,15 @@ public class Factory<T, V> {
     public V supply(T t) {
         return map.get(t).get();
     }
+
     public Map<T, Supplier<V>> getMap() {
         return map;
     }
+
     public void register(T t, Supplier<V> v) {
         map.put(t, v);
     }
+
     public void unregister(T t) {
         map.remove(t);
     }

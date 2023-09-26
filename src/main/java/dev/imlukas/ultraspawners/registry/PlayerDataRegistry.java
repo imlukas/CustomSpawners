@@ -2,8 +2,6 @@ package dev.imlukas.ultraspawners.registry;
 
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.PlayerData;
-import dev.imlukas.ultraspawners.data.SpawnerData;
-import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.storage.FileDatabase;
 import dev.imlukas.ultraspawners.storage.PlayerFile;
 import dev.imlukas.ultraspawners.utils.registry.DefaultRegistry;
@@ -13,9 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class PlayerDataRegistry extends DefaultRegistry<UUID, PlayerData> {
@@ -54,13 +49,5 @@ public class PlayerDataRegistry extends DefaultRegistry<UUID, PlayerData> {
         }
 
         super.unregister(uuid);
-    }
-
-    public Location parseLocation(ConfigurationSection section) {
-        if (section == null) {
-            return null;
-        }
-
-        return new Location(Bukkit.getWorld(section.getString("location-world")), section.getDouble("location-x"), section.getDouble("location-y"), section.getDouble("location-z"));
     }
 }

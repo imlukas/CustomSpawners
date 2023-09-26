@@ -7,7 +7,6 @@ import dev.imlukas.ultraspawners.utils.time.Time;
 import lombok.Data;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 @Data

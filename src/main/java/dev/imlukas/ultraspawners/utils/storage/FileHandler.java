@@ -2,7 +2,7 @@ package dev.imlukas.ultraspawners.utils.storage;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class FileHandler extends YMLBase{
+public abstract class FileHandler extends YMLBase {
 
     private final JavaPlugin plugin;
 

@@ -10,8 +10,6 @@ import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
 import dev.imlukas.ultraspawners.registry.PlayerDataRegistry;
 import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
 import dev.imlukas.ultraspawners.storage.FileDatabase;
-import dev.imlukas.ultraspawners.storage.FileManager;
-import dev.imlukas.ultraspawners.storage.PlayerFile;
 import dev.imlukas.ultraspawners.storage.SpawnerFile;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
@@ -29,7 +27,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -104,7 +101,7 @@ public class InteractListener implements Listener {
             spawner = fetchSpawner(spawnerId, file);
         }
 
-         // Here we can assume the owner of the spawner is not online, so we instantiate a new spawner so the player can interact with it
+        // Here we can assume the owner of the spawner is not online, so we instantiate a new spawner so the player can interact with it
         spawnerRegistry.addSpawner(spawner);
         new GenericSpawnerMenu(plugin, player, spawner).open();
 
@@ -112,21 +109,21 @@ public class InteractListener implements Listener {
 
     public InstancedSpawner fetchSpawner(String spawnerId, SpawnerFile file) {
         FileConfiguration config = file.getConfiguration();
-            UUID spawnerUUID = UUID.fromString(spawnerId);
-            ConfigurationSection spawnerSection = config.getConfigurationSection(spawnerId);
+        UUID spawnerUUID = UUID.fromString(spawnerId);
+        ConfigurationSection spawnerSection = config.getConfigurationSection(spawnerId);
 
-            if (spawnerSection == null) {
-                System.out.println("Spawner section is null for " + spawnerId);
-                return null;
-            }
+        if (spawnerSection == null) {
+            System.out.println("Spawner section is null for " + spawnerId);
+            return null;
+        }
 
-            SpawnerData spawnerData = spawnerDataFactory.supply(spawnerSection.getString("spawner-id"));
-            spawnerData.setStackSize(spawnerSection.getInt("spawner-stack"));
-            spawnerData.setStorage(spawnerSection.getInt("spawner-storage"));
-            spawnerData.setStoredXp(spawnerSection.getInt("spawner-xp"));
+        SpawnerData spawnerData = spawnerDataFactory.supply(spawnerSection.getString("spawner-id"));
+        spawnerData.setStackSize(spawnerSection.getInt("spawner-stack"));
+        spawnerData.setStorage(spawnerSection.getInt("spawner-storage"));
+        spawnerData.setStoredXp(spawnerSection.getInt("spawner-xp"));
 
-            Location location = parseLocation(spawnerSection.getConfigurationSection("location"));
-            return new InstancedSpawner(plugin, spawnerUUID, spawnerData, location);
+        Location location = parseLocation(spawnerSection.getConfigurationSection("location"));
+        return new InstancedSpawner(plugin, spawnerUUID, spawnerData, location);
     }
 
     public Location parseLocation(ConfigurationSection section) {

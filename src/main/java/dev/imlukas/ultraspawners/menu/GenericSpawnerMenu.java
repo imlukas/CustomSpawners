@@ -5,7 +5,6 @@ import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.utils.InventoryUpdate;
 import dev.imlukas.ultraspawners.utils.NumberUtil;
-import dev.imlukas.ultraspawners.utils.item.ItemBuilder;
 import dev.imlukas.ultraspawners.utils.menu.base.ConfigurableMenu;
 import dev.imlukas.ultraspawners.utils.menu.button.Button;
 import dev.imlukas.ultraspawners.utils.menu.configuration.ConfigurationApplicator;
@@ -17,8 +16,6 @@ import dev.imlukas.ultraspawners.utils.text.Placeholder;
 import dev.imlukas.ultraspawners.utils.text.TextUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 

@@ -1,16 +1,13 @@
 package dev.imlukas.ultraspawners.listener;
 
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
-import dev.imlukas.ultraspawners.data.PlayerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
-import dev.imlukas.ultraspawners.registry.PlayerDataRegistry;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class EntitySpawnListener implements Listener {
 
