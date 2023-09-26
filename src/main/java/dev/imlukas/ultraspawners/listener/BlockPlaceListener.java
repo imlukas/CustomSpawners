@@ -102,7 +102,7 @@ public class BlockPlaceListener implements Listener {
                 itemBlock.setAmount(itemBlock.getAmount() - amountToRemove);
             }
 
-            plugin.getMessages().sendMessage(player, "spawner.added-stack", new Placeholder<>("amount", String.valueOf(amount)));
+            plugin.getMessages().sendActionbar(player, "spawner.added-stack", new Placeholder<>("amount", String.valueOf(amount)));
             return;
         }
 

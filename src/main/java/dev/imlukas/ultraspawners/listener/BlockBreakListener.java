@@ -38,43 +38,48 @@ public class BlockBreakListener implements Listener {
         CustomBlockData blockData = new CustomBlockData(block, plugin);
 
         if (blockData.has(new NamespacedKey(plugin, "spawner-id"))) {
-
-            if (itemInHand.getType().isAir()) {
-                event.setCancelled(true);
-                return;
-            }
-
+            event.setCancelled(true);
             UUID spawnerId = UUID.fromString(blockData.get(new NamespacedKey(plugin, "spawner-id"), PersistentDataType.STRING));
 
             if (itemInHand.getType() != plugin.getPluginSettings().getPickaxeType()) {
-                event.setCancelled(true);
                 return;
             }
 
             InstancedSpawner spawner = spawnerRegistry.get(spawnerId);
+            SpawnerData spawnerData = spawner.getSpawnerData();
 
-            if (spawner == null) {
-                return;
+            int stackToRemove = 1;
+
+            if (player.isSneaking()) {
+                stackToRemove = 64;
             }
 
-            SpawnerData spawnerData = spawner.getSpawnerData();
-            spawnerData.setActive(false);
+            int stackSize = spawnerData.getStackSize();
+
+            if (stackSize < stackToRemove) {
+                stackToRemove = stackSize;
+            }
+
+            int finalStackSize = stackToRemove;
 
             ItemStack spawnerItem = spawner.getSpawnerData().getBlockItem();
+            spawnerData.setStackSize(stackSize - finalStackSize);
 
             PDCWrapper.modifyItem(plugin, spawnerItem, wrapper -> {
                 wrapper.setBoolean("broken", true);
-                wrapper.setInteger("stack-amount", spawnerData.getStackSize());
-                wrapper.setDouble("storage", spawnerData.getStorage());
-                wrapper.setDouble("xp", spawnerData.getStoredXp());
-                wrapper.setString("spawner-id", spawnerId.toString());
+                wrapper.setInteger("stack-amount", finalStackSize);
+                wrapper.setDouble("storage", 0);
+                wrapper.setDouble("xp", 0);
+                wrapper.setString("spawner-id", UUID.randomUUID().toString());
             });
 
             if (block.getState() instanceof CreatureSpawner) {
                 player.getWorld().dropItem(block.getLocation(), spawnerItem);
             }
 
-            spawnerRegistry.removeSpawner(spawner);
+            if (spawner.getSpawnerData().getStackSize() <= 0) {
+                spawnerRegistry.removeSpawner(spawner);
+            }
         }
     }
 

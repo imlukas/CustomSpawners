@@ -90,7 +90,7 @@ public class GenericSpawnerMenu extends UpdatableMenu {
             double sellPrice = spawner.getSpawnerData().getSellPrice() * amount;
             double xp = spawner.getSpawnerData().getStoredXp();
 
-            if (amount == 0 || xp == 0) {
+            if (data.getStoragePercent() <= 1) {
                 return;
             }
 
