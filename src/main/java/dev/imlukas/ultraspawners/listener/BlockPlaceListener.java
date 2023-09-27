@@ -67,7 +67,7 @@ public class BlockPlaceListener implements Listener {
 
         if (spawnerId != null) {
             event.setCancelled(true);
-            InstancedSpawner spawner = spawnerRegistry.get(UUID.fromString(spawnerId));
+            InstancedSpawner spawner = spawnerRegistry.getSpawner(UUID.fromString(spawnerId));
 
             if (spawner == null) {
                 return;
@@ -106,33 +106,10 @@ public class BlockPlaceListener implements Listener {
             return;
         }
 
-        boolean wasBroken = wrapper.contains("broken") && wrapper.getBoolean("broken");
-
-        // Spawn a new spawner with the old information
-        if (wasBroken) {
-            String itemSpawnerId = wrapper.getString("spawner-id");
-            int stackSize = wrapper.getInteger("stack-amount");
-            double storage = wrapper.getDouble("storage");
-            double xp = wrapper.getDouble("xp");
-
-            SpawnerData spawnerData = dataFactory.supply(identifier);
-            spawnerData.setStackSize(stackSize);
-            spawnerData.setStorage(storage);
-            spawnerData.setStoredXp(xp);
-
-            blockData.set(new NamespacedKey(plugin, "owner-id"), PersistentDataType.STRING, player.getUniqueId().toString());
-            blockData.set(new NamespacedKey(plugin, "spawner-id"), PersistentDataType.STRING, itemSpawnerId);
-
-            InstancedSpawner spawner = new InstancedSpawner(plugin, UUID.fromString(itemSpawnerId), spawnerData, block.getLocation());
-            spawnerRegistry.addSpawner(spawner);
-            return;
-        }
-
         InstancedSpawner spawner = new InstancedSpawner(plugin, dataFactory.supply(identifier), block.getLocation());
         spawner.getSpawnerData().setStackSize(stackAmount);
         spawnerRegistry.addSpawner(spawner);
 
-        blockData.set(new NamespacedKey(plugin, "owner-id"), PersistentDataType.STRING, player.getUniqueId().toString());
         blockData.set(new NamespacedKey(plugin, "spawner-id"), PersistentDataType.STRING, spawner.getSpawnerId().toString());
 
         if (block.getState() instanceof CreatureSpawner creatureSpawner) {

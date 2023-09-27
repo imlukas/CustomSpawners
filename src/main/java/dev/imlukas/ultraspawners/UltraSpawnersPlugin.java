@@ -81,7 +81,7 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
 
     @Override
     public void onDisable() {
-        for (InstancedSpawner spawner : spawnerRegistry.getValues()) {
+        for (InstancedSpawner spawner : spawnerRegistry.getSpawnerList()) {
             SpawnerFile spawnerFile = fileDatabase.getFileManager().getSpawnerFile();
             SpawnerData spawnerData = spawner.getSpawnerData();
             Location location = spawner.getBlockLocation();
@@ -119,7 +119,7 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
                     continue;
                 }
 
-                for (InstancedSpawner allSpawner : spawnerRegistry.getValues()) {
+                for (InstancedSpawner allSpawner : spawnerRegistry.getSpawnerList()) {
 
                     if (allSpawner.getBlockLocation().distance(location) < pluginSettings.getSpawnerRange()) {
                         allSpawner.addPlayerInRange(playerData);

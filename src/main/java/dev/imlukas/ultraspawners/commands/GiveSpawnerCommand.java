@@ -16,12 +16,10 @@ import java.util.Map;
 public class GiveSpawnerCommand implements SimpleCommand {
 
     private final UltraSpawnersPlugin plugin;
-    private final PlayerDataRegistry playerDataRegistry;
     private final SpawnerDataFactory spawnerDataFactory;
 
     public GiveSpawnerCommand(UltraSpawnersPlugin plugin) {
         this.plugin = plugin;
-        this.playerDataRegistry = plugin.getPlayerDataRegistry();
         this.spawnerDataFactory = plugin.getSpawnerDataRegistry();
     }
 
@@ -60,16 +58,17 @@ public class GiveSpawnerCommand implements SimpleCommand {
             }
         }
 
-
-        PlayerData playerData = playerDataRegistry.get(player.getUniqueId());
         ItemStack blockItem = spawnerDataFactory.supply(identifier).getBlockItem();
 
-        int finalAmount = amount;
         PDCWrapper.modifyItem(plugin, blockItem, wrapper -> {
-            wrapper.setInteger("stack-amount", finalAmount);
+            wrapper.setInteger("stack-amount", 1);
         });
 
-        player.getInventory().addItem(blockItem);
+
+        for (int i = 0; i < amount; i++) {
+            player.getInventory().addItem(blockItem);
+        }
+
         player.sendMessage("You have been given the spawner " + identifier);
     }
 }

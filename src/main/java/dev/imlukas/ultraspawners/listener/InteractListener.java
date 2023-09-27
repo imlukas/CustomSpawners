@@ -94,11 +94,16 @@ public class InteractListener implements Listener {
 
         UUID spawnerUUID = UUID.fromString(spawnerId);
 
-        InstancedSpawner spawner = spawnerRegistry.get(spawnerUUID);
+        InstancedSpawner spawner = spawnerRegistry.getSpawner(spawnerUUID);
 
         if (spawner == null) {
             SpawnerFile file = fileDatabase.getFileManager().getSpawnerFile();
             spawner = fetchSpawner(spawnerId, file);
+        }
+
+        if (spawner == null) {
+            System.err.println("[InteractEvent] Spawner with id " + spawnerId + " not found!");
+            return;
         }
 
         // Here we can assume the owner of the spawner is not online, so we instantiate a new spawner so the player can interact with it

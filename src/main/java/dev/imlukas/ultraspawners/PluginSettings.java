@@ -28,10 +28,6 @@ public class PluginSettings {
 
         this.boosterItem = ItemBuilder.fromSection(config.getConfigurationSection("booster-item"));
 
-        PDCWrapper.modifyItem(plugin, boosterItem, wrapper -> {
-            wrapper.setBoolean("booster", true);
-        });
-
         ItemMeta meta = boosterItem.getItemMeta();
         List<String> lore = meta.getLore();
         lore.replaceAll(line -> line.replace("%duration%", boosterDuration.toString()));

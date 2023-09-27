@@ -17,6 +17,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -46,33 +47,14 @@ public class BlockBreakListener implements Listener {
                 return;
             }
 
-            InstancedSpawner spawner = spawnerRegistry.get(spawnerId);
-            SpawnerData spawnerData = spawner.getSpawnerData();
+            InstancedSpawner spawner = spawnerRegistry.getSpawner(spawnerId);
 
-            int stackToRemove = 1;
-
-            if (player.isSneaking()) {
-                stackToRemove = 64;
+            if (spawner == null) {
+                System.err.println("[BreakEvent] Spawner with id " + spawnerId + " not found!");
+                return;
             }
 
-            int stackSize = spawnerData.getStackSize();
-
-            if (stackSize < stackToRemove) {
-                stackToRemove = stackSize;
-            }
-
-            int finalStackSize = stackToRemove;
-
-            ItemStack spawnerItem = spawner.getSpawnerData().getBlockItem();
-            spawnerData.setStackSize(stackSize - finalStackSize);
-
-            PDCWrapper.modifyItem(plugin, spawnerItem, wrapper -> {
-                wrapper.setBoolean("broken", true);
-                wrapper.setInteger("stack-amount", finalStackSize);
-                wrapper.setDouble("storage", 0);
-                wrapper.setDouble("xp", 0);
-                wrapper.setString("spawner-id", UUID.randomUUID().toString());
-            });
+            ItemStack spawnerItem = getItemStack(spawner, player);
 
             if (block.getState() instanceof CreatureSpawner) {
                 player.getWorld().dropItem(block.getLocation(), spawnerItem);
@@ -83,6 +65,32 @@ public class BlockBreakListener implements Listener {
                 spawnerRegistry.removeSpawner(spawner);
             }
         }
+    }
+
+    @NotNull
+    private static ItemStack getItemStack(InstancedSpawner spawner, Player player) {
+        SpawnerData spawnerData = spawner.getSpawnerData();
+
+        int stackToRemove = 1;
+
+        if (player.isSneaking()) {
+            stackToRemove = 64;
+        }
+
+        int stackSize = spawnerData.getStackSize();
+
+        if (stackSize < stackToRemove) {
+            stackToRemove = stackSize;
+        }
+
+        int finalStackSize = stackToRemove;
+
+
+        spawnerData.setStackSize(stackSize - finalStackSize);
+
+        ItemStack spawnerItem = spawner.getSpawnerData().getBlockItem();
+        spawnerItem.setAmount(finalStackSize);
+        return spawnerItem;
     }
 
     @EventHandler
