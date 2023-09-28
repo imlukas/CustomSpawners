@@ -45,9 +45,7 @@ public class SpawnerData {
 
         this.entityType = spawnerSection.getString("mob-type");
 
-        PDCWrapper.modifyItem(plugin, blockItem, wrapper -> {
-            wrapper.setString("spawner", identifier);
-        });
+        PDCWrapper.modifyItem(plugin, blockItem, wrapper -> wrapper.setString("spawner", identifier));
 
         this.sellPrice = spawnerSection.getInt("sell-price");
 

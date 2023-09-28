@@ -3,6 +3,7 @@ package dev.imlukas.ultraspawners;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
 import dev.imlukas.ultraspawners.utils.item.ItemBuilder;
 import dev.imlukas.ultraspawners.utils.item.ItemUtil;
+import dev.imlukas.ultraspawners.utils.text.Placeholder;
 import dev.imlukas.ultraspawners.utils.time.Time;
 import lombok.Data;
 import org.bukkit.Material;
@@ -34,13 +35,7 @@ public class PluginSettings {
             wrapper.setBoolean("booster", true);
         });
 
-        ItemUtil.addLore(boosterItem, "%duration%");
-
-        ItemMeta meta = boosterItem.getItemMeta();
-        List<String> lore = meta.getLore();
-        lore.replaceAll(line -> line.replace("%duration%", boosterDuration.toString()));
-        meta.setLore(lore);
-        boosterItem.setItemMeta(meta);
+        ItemUtil.replaceLore(boosterItem, s -> s.replace("%duration%", boosterDuration.toString()));
 
         this.pickaxeType = Material.getMaterial(config.getString("pickaxe-type"));
         this.canPickupAtZero = config.getBoolean("can-pickup-at-zero");

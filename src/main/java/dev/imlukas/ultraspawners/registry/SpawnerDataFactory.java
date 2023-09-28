@@ -9,8 +9,7 @@ import java.util.function.Supplier;
 
 public class SpawnerDataFactory extends Factory<String, SpawnerData> {
 
-    private final List<String> dataIdentifiers = new ArrayList<>(); // Avoids duplicate identifiers and allows
-    // for easy access without creating multiple instances ;)
+    private final List<String> dataIdentifiers = new ArrayList<>();
 
     public void register(Supplier<SpawnerData> dataSupplier) {
         SpawnerData data = dataSupplier.get();

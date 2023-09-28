@@ -50,7 +50,6 @@ public class BlockBreakListener implements Listener {
             InstancedSpawner spawner = spawnerRegistry.getSpawner(spawnerId);
 
             if (spawner == null) {
-                System.err.println("[BreakEvent] Spawner with id " + spawnerId + " not found!");
                 return;
             }
 

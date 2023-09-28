@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
 import dev.imlukas.ultraspawners.utils.text.TextUtils;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public final class ItemUtil {
 
@@ -100,6 +102,20 @@ public final class ItemUtil {
         }
 
         replacePlaceholder(item, replacementObject, placeholders);
+    }
+
+    public static void replaceLore(ItemStack itemStack, UnaryOperator<String> replacement) {
+        ItemMeta meta = itemStack.getItemMeta();
+        List<String> lore = meta.getLore();
+
+        if (lore == null) {
+            return;
+        }
+
+        lore.replaceAll(replacement);
+
+        meta.setLore(lore);
+        itemStack.setItemMeta(meta);
     }
 
     @SafeVarargs

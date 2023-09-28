@@ -34,7 +34,7 @@ public class SpawnerHandler extends FileHandler {
             SpawnerData spawnerData = new SpawnerData(plugin, section);
             spawnerDataFactory.register(() -> new SpawnerData(plugin, section));
             spawnerRegistry.registerGroup(new SpawnerGroup(plugin, spawnerData));
-            System.out.println("Registered spawner data and group for: " + key);
+            System.out.println("[UltraSpawners] Registered spawner data and group for: " + key);
         });
     }
 }
