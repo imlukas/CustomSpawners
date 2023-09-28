@@ -2,6 +2,8 @@ package dev.imlukas.ultraspawners.handler;
 
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.SpawnerData;
+import dev.imlukas.ultraspawners.group.SpawnerGroup;
+import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
 import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
 import dev.imlukas.ultraspawners.utils.storage.FileHandler;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,12 +11,14 @@ import org.bukkit.configuration.ConfigurationSection;
 public class SpawnerHandler extends FileHandler {
 
     private final UltraSpawnersPlugin plugin;
-    private final SpawnerDataFactory registry;
+    private final SpawnerDataFactory spawnerDataFactory;
+    private final GeneralSpawnerRegistry spawnerRegistry;
 
     public SpawnerHandler(UltraSpawnersPlugin plugin) {
         super(plugin, "spawners.yml");
         this.plugin = plugin;
-        this.registry = plugin.getSpawnerDataRegistry();
+        this.spawnerDataFactory = plugin.getSpawnerDataRegistry();
+        this.spawnerRegistry = plugin.getSpawnerRegistry();
         load();
     }
 
@@ -27,8 +31,10 @@ public class SpawnerHandler extends FileHandler {
                 return;
             }
 
-            registry.register(() -> new SpawnerData(plugin, section));
-            System.out.println("Registered spawner data: " + key);
+            SpawnerData spawnerData = new SpawnerData(plugin, section);
+            spawnerDataFactory.register(() -> new SpawnerData(plugin, section));
+            spawnerRegistry.registerGroup(new SpawnerGroup(plugin, spawnerData));
+            System.out.println("Registered spawner data and group for: " + key);
         });
     }
 }

@@ -18,8 +18,6 @@ public class InstancedSpawner {
     private final Location blockLocation;
     private final List<PlayerData> playersInRange = new ArrayList<>();
 
-    private final ScheduledTask storageTask;
-
     public InstancedSpawner(UltraSpawnersPlugin plugin, SpawnerData data, Location blockLocation) {
         this(plugin, UUID.randomUUID(), data, blockLocation);
     }
@@ -28,24 +26,6 @@ public class InstancedSpawner {
         this.spawnerId = spawnerId;
         this.spawnerData = spawnerData;
         this.blockLocation = blockLocation;
-
-        storageTask = new ScheduleBuilder(plugin).every(spawnerData.getTimePerCycle().asTicks()).ticks().run(() -> {
-            if (playersInRange.isEmpty() || !spawnerData.isActive()) {
-                return;
-            }
-
-            spawnerData.setActive(true);
-            spawnerData.setBoosted(false);
-
-            for (PlayerData playerData : playersInRange) {
-                if (playerData.isBoosted()) {
-                    spawnerData.setBoosted(true);
-                }
-            }
-
-            spawnerData.addStorage();
-            spawnerData.addXp(1);
-        }).sync().start();
 
         spawnerData.setActive(true);
     }
@@ -76,9 +56,5 @@ public class InstancedSpawner {
 
     public Location getBlockLocation() {
         return blockLocation;
-    }
-
-    public void cancel() {
-        storageTask.cancel();
     }
 }

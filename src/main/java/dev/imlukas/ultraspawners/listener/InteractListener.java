@@ -99,6 +99,7 @@ public class InteractListener implements Listener {
         if (spawner == null) {
             SpawnerFile file = fileDatabase.getFileManager().getSpawnerFile();
             spawner = fetchSpawner(spawnerId, file);
+            spawnerRegistry.addSpawner(spawner);
         }
 
         if (spawner == null) {
@@ -107,7 +108,6 @@ public class InteractListener implements Listener {
         }
 
         // Here we can assume the owner of the spawner is not online, so we instantiate a new spawner so the player can interact with it
-        spawnerRegistry.addSpawner(spawner);
         new GenericSpawnerMenu(plugin, player, spawner).open();
 
     }

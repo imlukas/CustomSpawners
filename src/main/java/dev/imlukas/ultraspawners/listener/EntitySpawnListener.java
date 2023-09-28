@@ -28,7 +28,7 @@ public class EntitySpawnListener implements Listener {
         Entity entity = event.getEntity();
         Location location = entity.getLocation();
 
-        for (InstancedSpawner value : spawnerRegistry.getSpawnerList()) {
+        for (InstancedSpawner value : spawnerRegistry.getAllSpawners()) {
             if (value.getBlockLocation().distance(location) >= 5) {
                 continue;
             }
