@@ -23,6 +23,11 @@ public class CheckBoosterCommand implements SimpleCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "ultraspawners.booster";
+    }
+
+    @Override
     public String getIdentifier() {
         return "spawners.booster";
     }

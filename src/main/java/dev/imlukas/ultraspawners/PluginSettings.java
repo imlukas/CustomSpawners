@@ -2,6 +2,7 @@ package dev.imlukas.ultraspawners;
 
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
 import dev.imlukas.ultraspawners.utils.item.ItemBuilder;
+import dev.imlukas.ultraspawners.utils.item.ItemUtil;
 import dev.imlukas.ultraspawners.utils.time.Time;
 import lombok.Data;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ public class PluginSettings {
     private final double boosterMultiplier;
     private final ItemStack boosterItem;
     private final Material pickaxeType;
+    private final boolean canPickupAtZero;
 
     public PluginSettings(UltraSpawnersPlugin plugin) {
         FileConfiguration config = plugin.getConfig();
@@ -28,6 +30,12 @@ public class PluginSettings {
 
         this.boosterItem = ItemBuilder.fromSection(config.getConfigurationSection("booster-item"));
 
+        PDCWrapper.modifyItem(plugin, boosterItem, wrapper -> {
+            wrapper.setBoolean("booster", true);
+        });
+
+        ItemUtil.addLore(boosterItem, "%duration%");
+
         ItemMeta meta = boosterItem.getItemMeta();
         List<String> lore = meta.getLore();
         lore.replaceAll(line -> line.replace("%duration%", boosterDuration.toString()));
@@ -35,6 +43,11 @@ public class PluginSettings {
         boosterItem.setItemMeta(meta);
 
         this.pickaxeType = Material.getMaterial(config.getString("pickaxe-type"));
+        this.canPickupAtZero = config.getBoolean("can-pickup-at-zero");
+    }
+
+    public boolean canPickupAtZero() {
+        return canPickupAtZero;
     }
 
     public ItemStack getBoosterItem() {

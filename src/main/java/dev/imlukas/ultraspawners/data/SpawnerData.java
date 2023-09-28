@@ -109,11 +109,21 @@ public class SpawnerData {
 
     public void addStack(int amount) {
         stackSize += amount;
-        maxStorage = maxStorage + (initialMaxStorage * amount);
+        maxStorage = initialMaxStorage * this.stackSize;
+
+        if (storage > maxStorage) {
+            storage = maxStorage;
+        }
+
     }
 
     public void setStackSize(int stackSize) {
         this.stackSize = stackSize;
-        maxStorage = maxStorage + (maxStorage * stackSize);
+        maxStorage = initialMaxStorage * this.stackSize;
+
+        if (storage > maxStorage) {
+            storage = maxStorage;
+        }
+
     }
 }

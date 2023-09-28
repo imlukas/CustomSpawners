@@ -124,7 +124,7 @@ public class SpawnerStorageMenu extends UpdatableMenu {
             double sellPrice = spawner.getSpawnerData().getSellPrice() * amount;
             Placeholder<Player> sellPricePlaceholder = new Placeholder<>("sold-amount", NumberUtil.formatDouble(data.getSellPrice() * data.getStorage()));
 
-            if (data.getStoragePercent() <= 0.1) {
+            if (!plugin.getPluginSettings().canPickupAtZero() && data.getStoragePercent() <= 0.1) {
                 return;
             }
 

@@ -15,6 +15,11 @@ public class GiveBoosterCommand implements SimpleCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "ultraspawners.give.booster";
+    }
+
+    @Override
     public String getIdentifier() {
         return "spawners.give.booster";
     }

@@ -46,12 +46,6 @@ public class BlockPlaceListener implements Listener {
         PDCWrapper wrapper = new PDCWrapper(plugin, itemBlock);
         String identifier = wrapper.getString("spawner");
 
-        int stackAmount = 1;
-
-        if (wrapper.contains("stack-amount")) {
-            stackAmount = wrapper.getInteger("stack-amount");
-        }
-
         if (identifier == null) {
             return;
         }
@@ -107,7 +101,6 @@ public class BlockPlaceListener implements Listener {
         }
 
         InstancedSpawner spawner = new InstancedSpawner(plugin, dataFactory.supply(identifier), block.getLocation());
-        spawner.getSpawnerData().setStackSize(stackAmount);
         spawnerRegistry.addSpawner(spawner);
 
         blockData.set(new NamespacedKey(plugin, "spawner-id"), PersistentDataType.STRING, spawner.getSpawnerId().toString());

@@ -29,6 +29,11 @@ public class GiveSpawnerCommand implements SimpleCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "ultraspawners.give";
+    }
+
+    @Override
     public Map<Integer, List<String>> tabCompleteWildcards() {
         return Map.of(1, spawnerDataFactory.getIdentifiers());
     }
