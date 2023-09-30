@@ -81,7 +81,6 @@ public class BlockPlaceListener implements Listener {
             if (player.isSneaking()) {
                 amountToRemove = itemBlock.getAmount();
                 if (wrapper.contains("stack-amount")) {
-
                     amount = amount * itemBlock.getAmount();
                 } else {
                     amount = itemBlock.getAmount();
@@ -91,7 +90,7 @@ public class BlockPlaceListener implements Listener {
             spawner.getSpawnerData().addStack(amount);
 
             if (amountToRemove == itemBlock.getAmount()) {
-                player.getInventory().remove(itemBlock);
+                player.getInventory().setItemInMainHand(null);
             } else {
                 itemBlock.setAmount(itemBlock.getAmount() - amountToRemove);
             }

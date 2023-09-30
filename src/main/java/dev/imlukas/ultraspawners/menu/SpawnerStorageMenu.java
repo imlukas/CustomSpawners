@@ -13,8 +13,9 @@ import dev.imlukas.ultraspawners.utils.menu.pagination.PaginableArea;
 import dev.imlukas.ultraspawners.utils.menu.registry.communication.UpdatableMenu;
 import dev.imlukas.ultraspawners.utils.schedulerutil.ScheduledTask;
 import dev.imlukas.ultraspawners.utils.schedulerutil.builders.ScheduleBuilder;
+import dev.imlukas.ultraspawners.utils.storage.Messages;
+import dev.imlukas.ultraspawners.utils.storage.SoundManager;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class SpawnerStorageMenu extends UpdatableMenu {
 
     private final UltraSpawnersPlugin plugin;
+    private final Messages messages;
+    private final SoundManager sounds;
     private final InstancedSpawner spawner;
 
     private ConfigurableMenu menu;
@@ -34,6 +37,8 @@ public class SpawnerStorageMenu extends UpdatableMenu {
     public SpawnerStorageMenu(UltraSpawnersPlugin plugin, Player viewer, InstancedSpawner spawner) {
         super(plugin, viewer);
         this.plugin = plugin;
+        this.messages = plugin.getMessages();
+        this.sounds = plugin.getSounds();
         this.spawner = spawner;
         setup();
     }
@@ -125,16 +130,18 @@ public class SpawnerStorageMenu extends UpdatableMenu {
             Placeholder<Player> sellPricePlaceholder = new Placeholder<>("sold-amount",
                     NumberUtil.formatDouble(data.getSellPrice() * data.getStorage()));
 
-            if (!plugin.getPluginSettings().canPickupAtZero() && data.getStoragePercent() <= 0.1) {
+            if (!plugin.getPluginSettings().canPickupAtZero() && (data.getStoragePercent() <= 0.9)) {
+                sounds.playSound(player, "spawner-cannot-collect");
                 return;
+
             }
 
             spawner.getSpawnerData().setStorage(0);
 
             plugin.getEconomy().depositPlayer(player, sellPrice);
-            plugin.getMessages().sendMessage(player, "spawner.collected", sellPricePlaceholder);
-            plugin.getMessages().sendActionbar(player, "spawner.collected-actionbar", sellPricePlaceholder);
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            messages.sendMessage(player, "spawner.collected", sellPricePlaceholder);
+            messages.sendActionbar(player, "spawner.collected-actionbar", sellPricePlaceholder);
+            sounds.playSound(player, "spawner-collected");
             close();
         });
 

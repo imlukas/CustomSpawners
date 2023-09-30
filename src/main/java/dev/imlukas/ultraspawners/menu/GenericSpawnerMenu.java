@@ -12,6 +12,8 @@ import dev.imlukas.ultraspawners.utils.menu.layer.BaseLayer;
 import dev.imlukas.ultraspawners.utils.menu.registry.communication.UpdatableMenu;
 import dev.imlukas.ultraspawners.utils.schedulerutil.ScheduledTask;
 import dev.imlukas.ultraspawners.utils.schedulerutil.builders.ScheduleBuilder;
+import dev.imlukas.ultraspawners.utils.storage.Messages;
+import dev.imlukas.ultraspawners.utils.storage.SoundManager;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
 import dev.imlukas.ultraspawners.utils.text.TextUtils;
 import org.bukkit.Sound;
@@ -22,6 +24,8 @@ import java.util.List;
 public class GenericSpawnerMenu extends UpdatableMenu {
 
     private final UltraSpawnersPlugin plugin;
+    private final Messages messages;
+    private final SoundManager sounds;
     private final InstancedSpawner spawner;
     private final SpawnerData data;
 
@@ -35,6 +39,8 @@ public class GenericSpawnerMenu extends UpdatableMenu {
     public GenericSpawnerMenu(UltraSpawnersPlugin plugin, Player viewer, InstancedSpawner spawner) {
         super(plugin, viewer);
         this.plugin = plugin;
+        this.messages = plugin.getMessages();
+        this.sounds = plugin.getSounds();
         this.spawner = spawner;
         this.data = spawner.getSpawnerData();
         setup();
@@ -47,7 +53,7 @@ public class GenericSpawnerMenu extends UpdatableMenu {
         }
 
         String name = data.getName();
-        String storagePercent = String.format("%.1f", data.getStoragePercent());
+        String storagePercent = String.format("%.0f", Math.floor(data.getStoragePercent()));
 
         menuPlaceholders = List.of(
                 new Placeholder<>("spawner-name", name),
@@ -90,8 +96,10 @@ public class GenericSpawnerMenu extends UpdatableMenu {
             double sellPrice = spawner.getSpawnerData().getSellPrice() * amount;
             double xp = spawner.getSpawnerData().getStoredXp();
 
-            if (!plugin.getPluginSettings().canPickupAtZero() && data.getStoragePercent() <= 0.1) {
+            if (!plugin.getPluginSettings().canPickupAtZero() && (data.getStoragePercent() <= 0.9)) {
+                sounds.playSound(player, "spawner-cannot-collect");
                 return;
+
             }
 
             spawner.getSpawnerData().setStorage(0);
@@ -99,9 +107,9 @@ public class GenericSpawnerMenu extends UpdatableMenu {
 
             plugin.getEconomy().depositPlayer(player, sellPrice);
             getViewer().giveExp((int) xp);
-            plugin.getMessages().sendMessage(player, "spawner.collected", menuPlaceholders);
-            plugin.getMessages().sendActionbar(player, "spawner.collected-actionbar", menuPlaceholders);
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            messages.sendMessage(player, "spawner.collected", menuPlaceholders);
+            messages.sendActionbar(player, "spawner.collected-actionbar", menuPlaceholders);
+            sounds.playSound(player, "spawner-collected");
             close();
         });
 
@@ -113,13 +121,14 @@ public class GenericSpawnerMenu extends UpdatableMenu {
             double xp = spawner.getSpawnerData().getStoredXp();
 
             if (xp == 0) {
+                sounds.playSound(player, "spawner-cannot-collect");
                 return;
             }
 
             spawner.getSpawnerData().setStoredXp(0);
             player.giveExp((int) xp);
             plugin.getMessages().sendMessage(player, "spawner.collected-xp", menuPlaceholders);
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            plugin.getSounds().playSound(player, "spawner-collected-xp");
             close();
         });
 

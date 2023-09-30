@@ -21,6 +21,7 @@ import dev.imlukas.ultraspawners.utils.menu.registry.MenuRegistry;
 import dev.imlukas.ultraspawners.utils.schedulerutil.ScheduledTask;
 import dev.imlukas.ultraspawners.utils.schedulerutil.builders.ScheduleBuilder;
 import dev.imlukas.ultraspawners.utils.storage.Messages;
+import dev.imlukas.ultraspawners.utils.storage.SoundManager;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -44,6 +45,7 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
     private CommandManager commandManager;
     private MenuRegistry menuRegistry;
     private Messages messages;
+    private SoundManager sounds;
     private Economy economy;
     private FileDatabase fileDatabase;
 
@@ -63,6 +65,7 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
         this.commandManager = new CommandManager(this);
         this.menuRegistry = new MenuRegistry(this);
         this.messages = new Messages(this);
+        this.sounds = new SoundManager(this);
 
         this.fileDatabase = new FileDatabase(this);
 
@@ -78,25 +81,22 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
 
         CustomBlockData.registerListener(this);
 
-        parseOldSpawners().thenRun(() -> {
-            commandManager.register(new GiveSpawnerCommand(this));
-            commandManager.register(new GiveBoosterCommand(this));
-            commandManager.register(new CheckBoosterCommand(this));
-            commandManager.register(new ReloadCommand(this));
-            registerListener(new BlockPlaceListener(this));
-            registerListener(new ConnectionListener(this));
-            registerListener(new InteractListener(this));
-            registerListener(new BlockBreakListener(this));
-            registerListener(new EntitySpawnListener(this));
-            setupRangeTask();
-        }).exceptionally(throwable -> {
-            throwable.printStackTrace();
-            return null;
-        });
+        parseOldSpawners();
+
+        commandManager.register(new GiveSpawnerCommand(this));
+        commandManager.register(new GiveBoosterCommand(this));
+        commandManager.register(new CheckBoosterCommand(this));
+        commandManager.register(new ReloadCommand(this));
+        registerListener(new BlockPlaceListener(this));
+        registerListener(new ConnectionListener(this));
+        registerListener(new InteractListener(this));
+        registerListener(new BlockBreakListener(this));
+        registerListener(new EntitySpawnListener(this));
+        setupRangeTask();
     }
 
-    public CompletableFuture<Void> parseOldSpawners() {
-        return CompletableFuture.runAsync(() -> {
+    public void parseOldSpawners() {
+        CompletableFuture.runAsync(() -> {
             SpawnerFile spawnerFile = fileDatabase.getFileManager().getSpawnerFile();
             FileConfiguration config = spawnerFile.getConfiguration();
 
@@ -137,6 +137,7 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
                 spawnerRegistry.addSpawner(spawner);
             }
         });
+
     }
 
     public void reload() {

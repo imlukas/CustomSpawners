@@ -1,0 +1,16 @@
+sounds:
+  spawner-collected:
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1
+    pitch: 1
+    enabled: true
+  spawner-collected-xp:
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1
+    pitch: 1
+    enabled: true
+  spawner-cannot-collect:
+    sound: ENTITY_VILLAGER_NO
+    volume: 1
+    pitch: 1
+    enabled: true

@@ -29,7 +29,7 @@ public class CheckBoosterCommand implements SimpleCommand {
 
     @Override
     public String getIdentifier() {
-        return "spawners.booster";
+        return "ultraspawners.booster";
     }
 
     @Override

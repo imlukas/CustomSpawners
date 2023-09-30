@@ -14,7 +14,7 @@ public class ReloadCommand implements SimpleCommand {
 
     @Override
     public String getIdentifier() {
-        return "spawners.reload";
+        return "ultraspawners.reload";
     }
 
     @Override

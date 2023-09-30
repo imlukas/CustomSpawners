@@ -25,7 +25,7 @@ public class GiveSpawnerCommand implements SimpleCommand {
 
     @Override
     public String getIdentifier() {
-        return "spawners.give.*.*";
+        return "ultraspawners.give.*.*";
     }
 
     @Override

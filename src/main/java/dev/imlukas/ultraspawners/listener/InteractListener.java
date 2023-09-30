@@ -68,7 +68,12 @@ public class InteractListener implements Listener {
                 }
 
                 playerData.setBoosted(true, plugin.getPluginSettings().getBoosterDuration().as(TimeUnit.SECONDS));
-                player.getInventory().remove(item);
+                if (item.getAmount() == 1) {
+                    player.getInventory().setItemInMainHand(null);
+                } else {
+                    item.setAmount(item.getAmount() - 1);
+                }
+
                 plugin.getMessages().sendActionbar(player, "booster-activated", new Placeholder<>("duration",
                         plugin.getPluginSettings().getBoosterDuration().toString()));
                 return;
