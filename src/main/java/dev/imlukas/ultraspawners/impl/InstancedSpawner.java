@@ -1,5 +1,6 @@
 package dev.imlukas.ultraspawners.impl;
 
+import com.google.common.collect.Sets;
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.PlayerData;
 import dev.imlukas.ultraspawners.data.SpawnerData;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class InstancedSpawner {
@@ -16,7 +18,7 @@ public class InstancedSpawner {
     private final UUID spawnerId;
     private final SpawnerData spawnerData;
     private final Location blockLocation;
-    private final List<PlayerData> playersInRange = new ArrayList<>();
+    private final Set<PlayerData> playersInRange = Sets.newConcurrentHashSet();
 
     public InstancedSpawner(UltraSpawnersPlugin plugin, SpawnerData data, Location blockLocation) {
         this(plugin, UUID.randomUUID(), data, blockLocation);
@@ -30,7 +32,7 @@ public class InstancedSpawner {
         spawnerData.setActive(true);
     }
 
-    public List<PlayerData> getPlayersInRange() {
+    public Set<PlayerData> getPlayersInRange() {
         return playersInRange;
     }
 

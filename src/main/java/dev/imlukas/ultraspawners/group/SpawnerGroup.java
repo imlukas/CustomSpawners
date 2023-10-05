@@ -9,6 +9,7 @@ import dev.imlukas.ultraspawners.utils.schedulerutil.builders.ScheduleBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SpawnerGroup {
 
@@ -33,7 +34,7 @@ public class SpawnerGroup {
         return new ScheduleBuilder(plugin).every(spawnerData.getTimePerCycle().asTicks()).ticks().run(() -> {
             for (InstancedSpawner spawner : spawnerList) {
                 SpawnerData spawnerData = spawner.getSpawnerData();
-                List<PlayerData> players = spawner.getPlayersInRange();
+                Set<PlayerData> players = spawner.getPlayersInRange();
 
                 if (players.isEmpty() || !spawnerData.isActive()) {
                     return;
