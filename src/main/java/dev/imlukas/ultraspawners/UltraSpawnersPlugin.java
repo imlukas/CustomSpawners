@@ -132,7 +132,7 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
                     continue;
                 }
 
-                InstancedSpawner spawner = new InstancedSpawner(this, UUID.fromString(key), spawnerData, location);
+                InstancedSpawner spawner = new InstancedSpawner(UUID.fromString(key), spawnerData, location);
                 System.out.println("Loaded spawner " + spawner.getSpawnerId() + " at " + spawner.getBlockLocation());
                 spawnerRegistry.addSpawner(spawner);
             }

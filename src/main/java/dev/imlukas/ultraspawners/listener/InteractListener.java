@@ -133,7 +133,7 @@ public class InteractListener implements Listener {
         spawnerData.setStoredXp(spawnerSection.getInt("spawner-xp"));
 
         Location location = parseLocation(spawnerSection.getConfigurationSection("location"));
-        return new InstancedSpawner(plugin, spawnerUUID, spawnerData, location);
+        return new InstancedSpawner(spawnerUUID, spawnerData, location);
     }
 
     public Location parseLocation(ConfigurationSection section) {

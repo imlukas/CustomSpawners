@@ -2,7 +2,6 @@ package dev.imlukas.ultraspawners.listener;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
-import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
 import dev.imlukas.ultraspawners.registry.GeneralSpawnerRegistry;
 import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
@@ -99,7 +98,7 @@ public class BlockPlaceListener implements Listener {
             return;
         }
 
-        InstancedSpawner spawner = new InstancedSpawner(plugin, dataFactory.supply(identifier), block.getLocation());
+        InstancedSpawner spawner = new InstancedSpawner(dataFactory.supply(identifier), block.getLocation());
         spawnerRegistry.addSpawner(spawner);
 
         blockData.set(new NamespacedKey(plugin, "spawner-id"), PersistentDataType.STRING, spawner.getSpawnerId().toString());
