@@ -6,7 +6,6 @@ import dev.imlukas.ultraspawners.utils.menu.button.DecorationItem;
 import dev.imlukas.ultraspawners.utils.menu.element.MenuElement;
 import dev.imlukas.ultraspawners.utils.menu.layer.BaseLayer;
 import dev.imlukas.ultraspawners.utils.menu.mask.PatternMask;
-import dev.imlukas.ultraspawners.utils.menu.pagination.PaginableTitle;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,35 +23,14 @@ public class ConfigurationApplicator {
     private final Map<String, ItemStack> items = new ConcurrentHashMap<>();
     @Getter
     private final PatternMask mask;
-    private final PaginableTitle title;
-    @Getter
-    private final List<String> description;
-
     @Getter
     private final FileConfiguration config;
+    private final String defaultTitle;
 
     public ConfigurationApplicator(FileConfiguration config) {
         this.config = config;
 
-        if (config.contains("paginable-title")) {
-            ConfigurationSection section = config.getConfigurationSection("paginable-title");
-            title = new PaginableTitle(
-                    section.getString("none"),
-                    section.getString("left"),
-                    section.getString("right"),
-                    section.getString("all")
-            );
-        } else {
-            String menuTitle = config.getString("title");
-            title = new PaginableTitle(menuTitle, menuTitle, menuTitle, menuTitle);
-        }
-
-        if (config.contains("description")) {
-            description = config.getStringList("description");
-        } else {
-            description = Collections.emptyList();
-        }
-
+        defaultTitle = config.getString("title");
         ConfigurationSection items = config.getConfigurationSection("items");
 
         for (String key : items.getKeys(false)) {
@@ -82,8 +60,8 @@ public class ConfigurationApplicator {
         return new DecorationItem(getItem(key));
     }
 
-    public PaginableTitle getPaginableTitle() {
-        return title;
+    public String getDefaultTitle() {
+        return defaultTitle;
     }
 
     public Button registerButton(BaseLayer layer, String key) {

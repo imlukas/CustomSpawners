@@ -16,6 +16,7 @@ import dev.imlukas.ultraspawners.utils.storage.Messages;
 import dev.imlukas.ultraspawners.utils.storage.SoundManager;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
 import dev.imlukas.ultraspawners.utils.text.TextUtils;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -92,25 +93,12 @@ public class GenericSpawnerMenu extends UpdatableMenu {
         Button displayItem = applicator.registerButton(baseLayer, "t", () -> {
             Player player = getViewer();
 
-            double amount = spawner.getSpawnerData().getStorage();
-            double sellPrice = spawner.getSpawnerData().getSellPrice() * amount;
-            double xp = spawner.getSpawnerData().getStoredXp();
-
-            if (!plugin.getPluginSettings().canPickupAtZero() && (data.getStoragePercent() <= 0.9)) {
-                sounds.playSound(player, "spawner-cannot-collect");
-                return;
-
+            if (spawner.collect(player)) {
+                messages.sendMessage(player, "spawner.collected", menuPlaceholders);
+                messages.sendActionbar(player, "spawner.collected-actionbar", menuPlaceholders);
+                sounds.playSound(player, "spawner-collected");
+                close();
             }
-
-            spawner.getSpawnerData().setStorage(0);
-            spawner.getSpawnerData().setStoredXp(0);
-
-            plugin.getEconomy().depositPlayer(player, sellPrice);
-            getViewer().giveExp((int) xp);
-            messages.sendMessage(player, "spawner.collected", menuPlaceholders);
-            messages.sendActionbar(player, "spawner.collected-actionbar", menuPlaceholders);
-            sounds.playSound(player, "spawner-collected");
-            close();
         });
 
         displayItem.setDisplayItem(data.getDisplayItem());
@@ -118,18 +106,12 @@ public class GenericSpawnerMenu extends UpdatableMenu {
         // Collect XP
         applicator.registerButton(baseLayer, "x", () -> {
             Player player = getViewer();
-            double xp = spawner.getSpawnerData().getStoredXp();
 
-            if (xp == 0) {
-                sounds.playSound(player, "spawner-cannot-collect");
-                return;
+            if (spawner.collectXp(player)) {
+                plugin.getMessages().sendMessage(player, "spawner.collected-xp", menuPlaceholders);
+                plugin.getSounds().playSound(player, "spawner-collected-xp");
+                close();
             }
-
-            spawner.getSpawnerData().setStoredXp(0);
-            player.giveExp((int) xp);
-            plugin.getMessages().sendMessage(player, "spawner.collected-xp", menuPlaceholders);
-            plugin.getSounds().playSound(player, "spawner-collected-xp");
-            close();
         });
 
         menu.addRenderable(baseLayer);

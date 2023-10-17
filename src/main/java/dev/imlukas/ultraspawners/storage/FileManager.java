@@ -18,10 +18,6 @@ public class FileManager {
         this.spawnerFile = new SpawnerFile(plugin);
     }
 
-    public PlayerFile getTemporaryPlayerFile(UUID playerId) {
-        return new PlayerFile(plugin, playerId.toString());
-    }
-
     public PlayerFile getPlayerFile(UUID playerId) {
         return playerFiles.computeIfAbsent(playerId, uuid -> new PlayerFile(plugin, uuid.toString()));
     }

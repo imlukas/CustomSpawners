@@ -3,6 +3,7 @@ package dev.imlukas.ultraspawners.menu;
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
+import dev.imlukas.ultraspawners.utils.InventoryUpdate;
 import dev.imlukas.ultraspawners.utils.NumberUtil;
 import dev.imlukas.ultraspawners.utils.menu.base.ConfigurableMenu;
 import dev.imlukas.ultraspawners.utils.menu.button.Button;
@@ -16,6 +17,7 @@ import dev.imlukas.ultraspawners.utils.schedulerutil.builders.ScheduleBuilder;
 import dev.imlukas.ultraspawners.utils.storage.Messages;
 import dev.imlukas.ultraspawners.utils.storage.SoundManager;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
+import dev.imlukas.ultraspawners.utils.text.TextUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +33,7 @@ public class SpawnerStorageMenu extends UpdatableMenu {
 
     private ConfigurableMenu menu;
     private PaginableArea area;
+    private PaginableLayer paginableLayer;
 
     private ScheduledTask refreshTask;
 
@@ -68,6 +71,7 @@ public class SpawnerStorageMenu extends UpdatableMenu {
             area.addElement(itemButton);
         }
 
+
         menu.forceUpdate();
     }
 
@@ -102,7 +106,7 @@ public class SpawnerStorageMenu extends UpdatableMenu {
             }
         });
 
-        PaginableLayer paginableLayer = new PaginableLayer(menu);
+        paginableLayer = new PaginableLayer(menu);
         area = new PaginableArea(applicator.getMask().selection("."));
         paginableLayer.addArea(area);
         layer = new BaseLayer(menu);
@@ -120,8 +124,14 @@ public class SpawnerStorageMenu extends UpdatableMenu {
             }).sync().start();
         });
 
-        applicator.registerButton(layer, "n", paginableLayer::nextPage);
-        applicator.registerButton(layer, "p", paginableLayer::previousPage);
+        applicator.registerButton(layer, "n", () -> {
+            paginableLayer.nextPage();
+            InventoryUpdate.updateInventory(getViewer(), TextUtils.color(getMenu().getTitle().replace("%page%", paginableLayer.getPage() + "")));
+        });
+        applicator.registerButton(layer, "p", () -> {
+            paginableLayer.previousPage();
+            InventoryUpdate.updateInventory(getViewer(), TextUtils.color(getMenu().getTitle().replace("%page%", paginableLayer.getPage() + "")));
+        });
         applicator.registerButton(layer, "s", () -> {
             Player player = getViewer();
             SpawnerData data = spawner.getSpawnerData();
@@ -161,6 +171,7 @@ public class SpawnerStorageMenu extends UpdatableMenu {
     @Override
     public void open() {
         super.open();
+        InventoryUpdate.updateInventory(getViewer(), TextUtils.color(getMenu().getTitle().replace("%page%", paginableLayer.getPage() + "")));
         setupRefreshTask();
     }
 

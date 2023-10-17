@@ -1,10 +1,10 @@
 package dev.imlukas.ultraspawners.impl;
 
 import com.google.common.collect.Sets;
-import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.PlayerData;
 import dev.imlukas.ultraspawners.data.SpawnerData;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 import java.util.UUID;
@@ -54,5 +54,37 @@ public class InstancedSpawner {
 
     public Location getBlockLocation() {
         return blockLocation;
+    }
+
+    public boolean collect(Player player) {
+        double amount = spawnerData.getStorage();
+        double sellPrice = spawnerData.getSellPrice() * amount;
+        double xp = spawnerData.getStoredXp();
+
+        if (!spawnerData.getPlugin().getPluginSettings().canPickupAtZero() && (spawnerData.getStoragePercent() <= 0.9)) {
+            spawnerData.getPlugin().getSounds().playSound(player, "spawner-cannot-collect");
+            return false;
+
+        }
+
+        spawnerData.setStorage(0);
+        spawnerData.setStoredXp(0);
+
+        spawnerData.getPlugin().getEconomy().depositPlayer(player, sellPrice);
+        player.giveExp((int) xp);
+        return true;
+    }
+
+    public boolean collectXp(Player player) {
+        double xp = spawnerData.getStoredXp();
+
+        if (xp == 0) {
+            spawnerData.getPlugin().getSounds().playSound(player, "spawner-cannot-collect");
+            return false;
+        }
+
+        spawnerData.setStoredXp(0);
+        player.giveExp((int) xp);
+        return true;
     }
 }

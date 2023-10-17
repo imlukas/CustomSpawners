@@ -12,9 +12,11 @@ import dev.imlukas.ultraspawners.registry.SpawnerDataFactory;
 import dev.imlukas.ultraspawners.storage.FileDatabase;
 import dev.imlukas.ultraspawners.storage.SpawnerFile;
 import dev.imlukas.ultraspawners.utils.PDCUtils.PDCWrapper;
+import dev.imlukas.ultraspawners.utils.storage.Messages;
 import dev.imlukas.ultraspawners.utils.text.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -33,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class InteractListener implements Listener {
 
     private final UltraSpawnersPlugin plugin;
+    private final Messages messages;
     private final SpawnerDataFactory spawnerDataFactory;
     private final GeneralSpawnerRegistry spawnerRegistry;
     private final PlayerDataRegistry playerDataRegistry;
@@ -40,6 +43,7 @@ public class InteractListener implements Listener {
 
     public InteractListener(UltraSpawnersPlugin plugin) {
         this.plugin = plugin;
+        this.messages = plugin.getMessages();
         this.spawnerDataFactory = plugin.getSpawnerDataRegistry();
         this.spawnerRegistry = plugin.getSpawnerRegistry();
         this.playerDataRegistry = plugin.getPlayerDataRegistry();
@@ -49,35 +53,11 @@ public class InteractListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        PlayerData playerData = playerDataRegistry.get(player.getUniqueId());
         Action clickType = event.getAction();
-        ItemStack item = event.getItem();
+        ItemStack itemStack = event.getItem();
 
-        if (item != null) {
-            PDCWrapper wrapper = new PDCWrapper(plugin, item);
-            if (wrapper.contains("spawner")) {
-                return;
-            }
-
-            if (wrapper.contains("booster")) {
-                event.setCancelled(true);
-
-                if (playerData.isBoosted()) {
-                    plugin.getMessages().sendActionbar(player, "booster-already-active");
-                    return;
-                }
-
-                playerData.setBoosted(true, plugin.getPluginSettings().getBoosterDuration().as(TimeUnit.SECONDS));
-                if (item.getAmount() == 1) {
-                    player.getInventory().setItemInMainHand(null);
-                } else {
-                    item.setAmount(item.getAmount() - 1);
-                }
-
-                plugin.getMessages().sendActionbar(player, "booster-activated", new Placeholder<>("duration",
-                        plugin.getPluginSettings().getBoosterDuration().toString()));
-                return;
-            }
+        if (itemStack != null && itemStack.getType() == Material.SPAWNER) {
+            return;
         }
 
         if (!clickType.isRightClick()) {

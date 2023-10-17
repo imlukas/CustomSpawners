@@ -70,7 +70,7 @@ public class ItemBuilder {
         }
 
         ItemBuilder builder = new ItemBuilder(
-                Material.valueOf(
+                Material.getMaterial(
                         section.getString(section.contains("material") ? "material" : "type")));
 
         ItemConfigurationSerializer.applySection(builder, section);

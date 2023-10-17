@@ -8,7 +8,15 @@ booster-item:
   lore:
       - "&7Consumable"
       - "&7a Lasts &e&l%duration%"
+sell-wand-item:
+  type: STICK
+  name: "&e&lSELL WAND"
+  lore:
+    - "&7Right click to sell all items in the spawners around you"
 
-pickaxe-type: DIAMOND_PICKAXE # Pickaxe type that can break spawners
-
+pickaxe:
+  multi-pick: true # if true, any pickaxe can break spawners
+  types: # Pickaxe types that can break spawners
+    - DIAMOND_PICKAXE
+    - IRON_PICKAXE
 can-pickup-at-zero: false

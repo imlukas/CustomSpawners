@@ -33,8 +33,8 @@ public class ConfigurableMenu extends BaseMenu {
         return getApplicator().getMask();
     }
 
-    public List<String> getDescription() {
-        return getApplicator().getDescription();
+    public String getTitle() {
+        return getApplicator().getDefaultTitle();
     }
 
     public FileConfiguration getConfig() {

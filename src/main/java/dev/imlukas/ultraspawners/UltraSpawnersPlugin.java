@@ -1,10 +1,7 @@
 package dev.imlukas.ultraspawners;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import dev.imlukas.ultraspawners.commands.CheckBoosterCommand;
-import dev.imlukas.ultraspawners.commands.GiveBoosterCommand;
-import dev.imlukas.ultraspawners.commands.GiveSpawnerCommand;
-import dev.imlukas.ultraspawners.commands.ReloadCommand;
+import dev.imlukas.ultraspawners.commands.*;
 import dev.imlukas.ultraspawners.data.PlayerData;
 import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.handler.SpawnerHandler;
@@ -87,11 +84,14 @@ public final class UltraSpawnersPlugin extends BetterJavaPlugin {
         commandManager.register(new GiveBoosterCommand(this));
         commandManager.register(new CheckBoosterCommand(this));
         commandManager.register(new ReloadCommand(this));
+        commandManager.register(new GiveSellWandCommand(this));
         registerListener(new BlockPlaceListener(this));
         registerListener(new ConnectionListener(this));
         registerListener(new InteractListener(this));
         registerListener(new BlockBreakListener(this));
         registerListener(new EntitySpawnListener(this));
+        registerListener(new BoosterInteractListener(this));
+        registerListener(new SellWandInteractListener(this));
         setupRangeTask();
     }
 

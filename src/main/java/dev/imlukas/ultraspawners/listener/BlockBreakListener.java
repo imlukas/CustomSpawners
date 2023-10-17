@@ -1,6 +1,7 @@
 package dev.imlukas.ultraspawners.listener;
 
 import com.jeff_media.customblockdata.CustomBlockData;
+import dev.imlukas.ultraspawners.PluginSettings;
 import dev.imlukas.ultraspawners.UltraSpawnersPlugin;
 import dev.imlukas.ultraspawners.data.SpawnerData;
 import dev.imlukas.ultraspawners.impl.InstancedSpawner;
@@ -10,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,10 +26,12 @@ import java.util.UUID;
 public class BlockBreakListener implements Listener {
 
     private final UltraSpawnersPlugin plugin;
+    private final PluginSettings pluginSettings;
     private final GeneralSpawnerRegistry spawnerRegistry;
 
     public BlockBreakListener(UltraSpawnersPlugin plugin) {
         this.plugin = plugin;
+        this.pluginSettings = plugin.getPluginSettings();
         this.spawnerRegistry = plugin.getSpawnerRegistry();
     }
 
@@ -42,8 +46,18 @@ public class BlockBreakListener implements Listener {
         if (blockData.has(new NamespacedKey(plugin, "spawner-id"))) {
             event.setCancelled(true);
             UUID spawnerId = UUID.fromString(blockData.get(new NamespacedKey(plugin, "spawner-id"), PersistentDataType.STRING));
+            Material itemType = itemInHand.getType();
 
-            if (itemInHand.getType() != plugin.getPluginSettings().getPickaxeType()) {
+
+            if (pluginSettings.isMultiPick() && !(itemType.toString().contains("PICKAXE"))) {
+                return;
+            } else {
+                if (!pluginSettings.getPickaxeTypes().contains(itemType)) {
+                    return;
+                }
+            }
+
+            if (!itemInHand.getItemMeta().getEnchants().containsKey(Enchantment.SILK_TOUCH)) {
                 return;
             }
 

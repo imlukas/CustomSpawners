@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,7 +21,9 @@ public class PluginSettings {
     private final Time boosterDuration;
     private final double boosterMultiplier;
     private final ItemStack boosterItem;
-    private final Material pickaxeType;
+    private final ItemStack sellWandItem;
+    private final List<Material> pickaxeTypes;
+    private final boolean multiPick;
     private final boolean canPickupAtZero;
 
     public PluginSettings(UltraSpawnersPlugin plugin) {
@@ -35,9 +38,21 @@ public class PluginSettings {
             wrapper.setBoolean("booster", true);
         });
 
+        this.sellWandItem = ItemBuilder.fromSection(config.getConfigurationSection("sell-wand-item"));
+        PDCWrapper.modifyItem(plugin, sellWandItem, wrapper -> {
+            wrapper.setBoolean("sell-wand", true);
+        });
+
         ItemUtil.replaceLore(boosterItem, s -> s.replace("%duration%", boosterDuration.toString()));
 
-        this.pickaxeType = Material.getMaterial(config.getString("pickaxe-type"));
+        List<Material> pickaxes = new ArrayList<>();
+
+        for (String pickaxeType : config.getStringList("pickaxe.types")) {
+            pickaxes.add(Material.getMaterial(pickaxeType));
+        }
+
+        this.pickaxeTypes = pickaxes;
+        this.multiPick = config.getBoolean("pickaxe.multi-pick");
         this.canPickupAtZero = config.getBoolean("can-pickup-at-zero");
     }
 
@@ -47,5 +62,9 @@ public class PluginSettings {
 
     public ItemStack getBoosterItem() {
         return boosterItem.clone();
+    }
+
+    public ItemStack getSellWandItem() {
+        return sellWandItem.clone();
     }
 }

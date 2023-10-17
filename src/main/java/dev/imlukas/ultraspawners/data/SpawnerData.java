@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 public class SpawnerData {
 
     private final UltraSpawnersPlugin plugin;
+    private final double boosterMultiplier;
+
     private final String identifier;
     private final String name;
     private final Time timePerCycle;
@@ -28,6 +30,7 @@ public class SpawnerData {
 
     private double initialMaxStorage;
     private double maxStorage;
+    private double maxXpStorage;
     private double storage = 0;
     private double storedXp = 0;
     private int stackSize = 1;
@@ -37,6 +40,7 @@ public class SpawnerData {
 
     public SpawnerData(UltraSpawnersPlugin plugin, ConfigurationSection spawnerSection) {
         this.plugin = plugin;
+        this.boosterMultiplier = plugin.getPluginSettings().getBoosterMultiplier();
         this.identifier = spawnerSection.getName();
         this.name = spawnerSection.getString("name");
         this.displayItem = ItemBuilder.fromSection(spawnerSection.getConfigurationSection("display-item"));
@@ -54,6 +58,7 @@ public class SpawnerData {
         this.timePerCycle = Time.parseTime(rateSection.getString("time"));
 
         this.maxStorage = spawnerSection.getInt("max-storage");
+        this.maxXpStorage = spawnerSection.getInt("max-xp");
         this.initialMaxStorage = maxStorage;
 
     }
@@ -83,7 +88,7 @@ public class SpawnerData {
         double newStorage = storage;
 
         if (isBoosted()) {
-            newStorage += (finalAmount * plugin.getPluginSettings().getBoosterMultiplier());
+            newStorage += (finalAmount * boosterMultiplier);
         } else {
             newStorage += finalAmount;
         }
@@ -97,12 +102,14 @@ public class SpawnerData {
     }
 
     public void addXp(int amount) {
-        if (isBoosted()) {
-            storedXp += amount * 2;
+        int toAdd = isBoosted() ? amount * 2 : amount;
+
+        if (storedXp + toAdd > maxXpStorage) {
+            storedXp = maxXpStorage;
             return;
         }
 
-        storedXp += amount;
+        storedXp += toAdd;
     }
 
     public void addStack(int amount) {

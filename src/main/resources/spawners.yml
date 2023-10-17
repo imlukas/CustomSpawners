@@ -16,6 +16,7 @@ pig-spawner:
       - "&7Spawns pigs"
   sell-price: 10 # Price to sell the item
   max-storage: 10000
+  max-xp: 10000
   rate:
     amount: 1 # Amount of items to generate per cycle
     time: 1 seconds # 1 seconds, minutes, hours

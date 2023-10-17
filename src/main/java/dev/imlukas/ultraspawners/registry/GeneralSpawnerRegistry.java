@@ -7,8 +7,7 @@ import dev.imlukas.ultraspawners.utils.registry.DefaultRegistry;
 import java.util.*;
 
 /**
- * Not the best approach to this problem as this can be a potential memory leak. If you're a developer working on top of
- * this base keep that in mind and if you can, try to find a better solution. ;)
+ * Could be done in a more efficient way ;)
  */
 public class GeneralSpawnerRegistry {
 
